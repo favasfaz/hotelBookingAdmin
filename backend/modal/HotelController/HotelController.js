@@ -4,6 +4,7 @@ import { createError } from "../../util/error.js";
 
 //createHotel
 export const createHotel = async (req, res,next) => {
+  console.log(req.body);
   const hotel = await hotelSchema.findOne({name:req.body.name})
   if(hotel) return next(createError(401,'author already found'))
   try {

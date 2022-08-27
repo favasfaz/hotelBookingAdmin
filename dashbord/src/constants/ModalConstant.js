@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import { Button, Link, TextField, Typography } from "@mui/material";
-import { Field, Formik } from "formik";
+import { MenuItem, Select, TextField } from "@mui/material";
+import { Formik } from "formik";
 import { Box } from "@mui/system";
 import {
   roomValidation,
@@ -12,22 +12,33 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { uploadImage } from "../APIs/index";
 
-function ModalConstant({ setOpen, open, hotel, room, formKeys }) {
+function ModalConstant({
+  setOpen,
+  open,
+  hotel,
+  room,
+  formKeys,
+  category,
+  allCategory,
+}) {
   const [image, setImage] = useState([]);
 
   const handleSubmit = async (e, values) => {
     e.preventDefault();
     const files = [...image];
     try {
-      if(room){
+      if (room) {
         const value = await uploadImage(files, values);
-      await axios.post("/api/rooms/room/6308fa411b49189469b471d1", value);
-      toast("successfully created");
-      }
-      else if(hotel){
+        await axios.post(`/api/rooms/room/${values.hotelId}`, value);
+        toast("successfully created");
+      } else if (hotel) {
         const value = await uploadImage(files, values);
-      await axios.post("/api/hotels/hotel", value);
-      toast("successfully created");
+        await axios.post("/api/hotels/hotel", value);
+        toast("successfully created");
+      } else if (category) {
+        const value = await uploadImage(files, values);
+        await axios.post("/api/category", value);
+        toast("successfully created");
       }
     } catch (error) {
       toast.error(error.response.data.message, {
@@ -57,7 +68,7 @@ function ModalConstant({ setOpen, open, hotel, room, formKeys }) {
                   class="text-xl font-medium leading-normal text-gray-800"
                   id="exampleModalLongLabel"
                 >
-                  {hotel ? "Add Hotel" : "Add Room"}
+                  {hotel ? "Add Room" : room ? "Add Room" : "Add Category"}
                 </h5>
                 <ToastContainer
                   position="bottom-left"
@@ -87,7 +98,7 @@ function ModalConstant({ setOpen, open, hotel, room, formKeys }) {
                     hotelId: "",
                     price: "",
                     maxPeople: "",
-                    description: "",
+                    discription: "",
                     roomNumber: "",
                     category: "",
                     name: "",
@@ -107,41 +118,7 @@ function ModalConstant({ setOpen, open, hotel, room, formKeys }) {
                     handleBlur,
                     onSubmit,
                   }) => (
-                    <Box
-                      component="form"
-                      // onSubmit={async (e, values) => {
-                      //   console.log(Formik.values, "valu");
-                      //   const files = [...image];
-                      //   const imagesUrls = [];
-                      //   e.preventDefault();
-                      // files.map(async (images) => {
-                      //   const file = images;
-                      //   const formData = new FormData();
-                      //   formData.append("file", file);
-                      //   formData.append("upload_preset", "srpv6qud");
-                      //   await axios
-                      //     .post(
-                      //       "https://api.cloudinary.com/v1_1/dyj8kjlnl/image/upload",
-                      //       formData
-                      //     )
-                      //     .then((res) => values.imageUrls.push(res.data.url))
-                      //     .catch((err) => console.log(err));
-                      // });
-                      // console.log(values,'valueswith imagesurl');
-                      // await axios.post('/api/rooms/room/6308fa411b49189469b471d1',values)
-                      // .then(res => toast("successfully created"))
-                      // .catch(err => toast.error(err.response.data.message, {
-                      //   position: "bottom-left",
-                      //   autoClose: 5000,
-                      //   hideProgressBar: false,
-                      //   closeOnClick: true,
-                      //   pauseOnHover: true,
-                      //   draggable: true,
-                      //   progress: undefined,
-                      //   }))
-                      // }}
-                      sx={{ mt: 3 }}
-                    >
+                    <Box component="form" sx={{ mt: 3 }}>
                       {room && (
                         <div className="flex flex-col items-center mt-4">
                           {formKeys.map(
@@ -176,7 +153,7 @@ function ModalConstant({ setOpen, open, hotel, room, formKeys }) {
                             <button
                               onClick={(e) => handleSubmit(e, values)}
                               disabled={Boolean(
-                                  errors.roomNumber ||
+                                errors.roomNumber ||
                                   values.roomNumber === "" ||
                                   errors.description ||
                                   values.description === "" ||
@@ -196,25 +173,46 @@ function ModalConstant({ setOpen, open, hotel, room, formKeys }) {
                       )}
                       {hotel && (
                         <div className="flex flex-col items-center mt-4">
-                          {formKeys.map((v) => (
-                            console.log(errors),
-                            <TextField
-                              key={v}
-                              id="standard-basic"
-                              label={v}
-                              variant="outlined"
-                              style={{ marginBottom: "8px" }}
-                              error={Boolean(touched.v && errors.v)}
-                              helperText={touched.v && errors.v}
-                              onBlur={handleBlur}
-                              onChange={handleChange}
-                              value={values.v}
-                              name={v}
-                            />
-                          ))}
+                          {formKeys.map(
+                            (v) => (
+                              console.log(errors),
+                              (
+                                <TextField
+                                  key={v}
+                                  id="standard-basic"
+                                  label={v}
+                                  variant="outlined"
+                                  style={{ marginBottom: "8px" }}
+                                  error={Boolean(touched.v && errors.v)}
+                                  helperText={touched.v && errors.v}
+                                  onBlur={handleBlur}
+                                  onChange={handleChange}
+                                  value={values.v}
+                                  name={v}
+                                />
+                              )
+                            )
+                          )}
+
+                          <Select
+                            className="w-2/3 mb-3"
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={values.category}
+                            label="category"
+                            onChange={handleChange}
+                            name="category"
+                          >
+                            {allCategory.map((item) => (
+                              <MenuItem key={item._id} value={item._id}>
+                                {item.category}
+                              </MenuItem>
+                            ))}
+                          </Select>
 
                           <input
                             type="file"
+                            required
                             multiple="multiple"
                             onChange={(e) => {
                               setImage(e.target.files);
@@ -223,7 +221,7 @@ function ModalConstant({ setOpen, open, hotel, room, formKeys }) {
 
                           <div class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
                             <button
-                            onClick={(e) => handleSubmit(e, values)}
+                              onClick={(e) => handleSubmit(e, values)}
                               type="submit"
                               disabled={Boolean(
                                 errors.category ||
@@ -242,6 +240,44 @@ function ModalConstant({ setOpen, open, hotel, room, formKeys }) {
                               class={`inline-block px-6 py-2.5 bg-blue-600   text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1`}
                             >
                               Save
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                      {category && (
+                        <div className="flex flex-col items-center mt-4">
+                          {formKeys.map((v) => (
+                            <TextField
+                              key={v}
+                              id="standard-basic"
+                              label={v}
+                              variant="outlined"
+                              style={{ marginBottom: "8px" }}
+                              error={Boolean(touched.v && errors.v)}
+                              helperText={touched.v && errors.v}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                              value={values.v}
+                              name={v}
+                            />
+                          ))}
+                          <input
+                            type="file"
+                            multiple="multiple"
+                            onChange={(e) => {
+                              setImage(e.target.files);
+                            }}
+                          />
+                          <div class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
+                            <button
+                              type="submit"
+                              onClick={(e) => handleSubmit(e, values)}
+                              disabled={Boolean(
+                                errors.category || values.category === ""
+                              )}
+                              class={`inline-block px-6 py-2.5 bg-blue-600   text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1`}
+                            >
+                              Submit
                             </button>
                           </div>
                         </div>

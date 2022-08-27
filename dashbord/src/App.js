@@ -12,6 +12,7 @@ import Bookings from "./pages/Bookings";
 import Hotels from "./pages/Hotels";
 import Rooms from "./pages/Rooms";
 import Login from "./pages/Login";
+import Category from './pages/Category'
 
 const App = () => {
   const {
@@ -82,6 +83,8 @@ const App = () => {
                 <Route path="/Hotels" element={<Hotels />} />
                 <Route path="/customers" element={<Customers />} />
                 <Route path="/Rooms" element={<Rooms />} />
+                <Route path="/Category" element={<Category />} />
+
               </Routes>
             </div>
             <Footer />

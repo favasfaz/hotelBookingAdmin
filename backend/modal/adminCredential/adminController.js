@@ -5,12 +5,11 @@ import userSchema from '../../schema/users-schema.js'
 import categorySchema from "../../schema/category-schema.js";
 
 //login admin
-export const LoginAdmin = async (req, res,next) => {
+export const LoginAdmin =  async(req, res,next) => {
   
   try {
     const { email, password } = req.body;
     const admin = await adminSchema.findOne({email,password})
-    console.log(admin,'admin');
     if (!admin) {
       next(createError(400,'check your password or email'))
     } else {

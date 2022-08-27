@@ -33,7 +33,7 @@ const roomSchema = new mongoose.Schema({
     ],
     currentBooking:[String],
     isNotAvailable:[Object],
-      imagesUrls:[String]
+      imageUrls:[String]
 },{timestamps: true})
  const  room = mongoose.model("room", roomSchema);
 export default room

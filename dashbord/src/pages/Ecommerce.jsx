@@ -17,6 +17,8 @@ import { earningData, medicalproBranding, recentTransactions, weeklyStats, dropd
 import { useStateContext } from '../contexts/ContextProvider';
 import product9 from '../data/product9.jpg';
 import TableConstants from '../constants/TableConstants';
+import {useNavigate} from 'react-router-dom'
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -48,9 +50,14 @@ const DropDown = ({ currentMode }) => (
 );
 
 const Ecommerce = () => {
+  const navigate = useNavigate()
   const { currentColor, currentMode } = useStateContext();
   const [users,setUsers] = useState([])
   useEffect(async()=>{
+    const id =  localStorage.getItem('id')
+    if(id){
+      navigate('/home')
+    }
     const allUsers =await axios.get('/api/admin/allUsers')
     console.log(allUsers,'users');
     setUsers(allUsers.data)

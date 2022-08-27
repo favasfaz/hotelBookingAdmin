@@ -2,6 +2,7 @@ import categorySchema from "../../schema/category-schema.js";
 import hotelSchema from "../../schema/hotel-schema.js";
 import { createError } from "../../util/error.js";
 
+//adding category
 export const addCategory = async(req,res,next) =>{
     try {
         const ifExist = await categorySchema.findOne({category:req.body.category})
@@ -13,6 +14,7 @@ export const addCategory = async(req,res,next) =>{
     }
 }
 
+//deleting Category
 export const deleteCategory = async(req,res,next) =>{
     try {
         await categorySchema.findByIdAndDelete(req.params.id)
@@ -22,6 +24,7 @@ export const deleteCategory = async(req,res,next) =>{
     }
 }
 
+//updating an category
 export const updateCategory = async( req,res,next) =>{
     try {
         await categorySchema.findByIdAndUpdate(req.params.id,{$set:req.body})
@@ -31,6 +34,7 @@ export const updateCategory = async( req,res,next) =>{
     }
 }
 
+//getting details of single category
 export const singleStaticsOfCategory = async(req,res,next) =>{
 try {
     const categoryItems = await hotelSchema
@@ -42,3 +46,8 @@ try {
 }
 }
 
+//getting all categories
+export const getAllCategory = async(req,res) =>{
+   const categories = await categorySchema.find({})
+   res.status(201).json(categories)
+}

@@ -32,7 +32,7 @@ export const hotelValidation = Yup.object().shape({
     .matches(/^[0-9]+$/, "Must be only digits")
     .min(10, "Must be exactly 5 digits")
     .max(10, "Must be exactly 5 digits"),
-  description: Yup.string()
+    discription: Yup.string()
     .required("descriprion is required")
     .min(10)
     .max(255),

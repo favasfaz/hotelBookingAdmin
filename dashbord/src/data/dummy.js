@@ -500,6 +500,11 @@ export const links = [
         name: 'Rooms',
         icon: <BsKanban />,
       }
+      ,
+      {
+        name: 'Category',
+        icon: <FiPieChart />,
+      }
     ],
   },
   {

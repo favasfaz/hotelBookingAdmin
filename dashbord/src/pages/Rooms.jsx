@@ -21,7 +21,7 @@ const Rooms = () => {
   useEffect(async()=>{
     const allRooms =await axios.get('/api/rooms/room')
     setRooms(allRooms.data)
-   },[])
+   },[rooms])
   return(
  
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
@@ -31,7 +31,7 @@ const Rooms = () => {
       <AddIcon className='mr-1'/>
   Add Room
 </button>
-    <TableConstants array={rooms} arraykeys={arraykeys}/>
+    <TableConstants array={rooms} arraykeys={arraykeys} room={room}/>
     </TableContainer>
     <ModalConstant open={open} setOpen={setOpen} formKeys={roomKeys} room={room}/>
   </div>

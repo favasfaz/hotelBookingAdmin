@@ -23,3 +23,25 @@ export const uploadImage =async(files,values) =>{
 export const adminLogin = async(data)=>{
 return await axios.post('/api/admin/login',data)
 }
+
+//get allHotels
+export const allHotels = async()=>{
+  return axios.get('/api/hotels/hotel')
+}
+
+//deleting hotel
+export const deleteHotel = async(id)=>{
+return axios.delete(`/api/hotels/hotel/${id}`)
+}
+
+//deleting room
+
+export const deleteRoom = async(id)=>{
+return axios.delete(`/api/rooms/room/${id}`)
+}
+
+//deleting category
+
+export const deleteCategory = async(id) =>{
+  return axios.delete(`/api/category/${id}`)
+}

@@ -7,6 +7,7 @@ import roomRouter from "./routes/roomRouter.js";
 import bookingRouter from './routes/bookingRouter.js'
 import categoryRouter from './routes/categoryRouter.js'
 import cookieParcer from "cookie-parser";
+import {verifyToken} from './middleware/authMiddleware.js'
 
 import db from "./util/config.js";
 import bodyParser from "body-parser";
@@ -22,10 +23,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 app.use("/api/admin", adminRouter);
-app.use("/api/hotels", hotelRouter);
-app.use("/api/rooms", roomRouter);
-app.use('/api/booking',bookingRouter)
-app.use('/api/category',categoryRouter)
+app.use("/api/hotels",verifyToken, hotelRouter);
+app.use("/api/rooms",verifyToken, roomRouter);
+app.use('/api/booking',verifyToken,bookingRouter)
+app.use('/api/category',verifyToken,categoryRouter)
 
 app.use((err, req, res, next) => {
   const errStatus = err.status || 500;

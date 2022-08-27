@@ -20,7 +20,7 @@ const Customers = () => {
 useEffect(async()=>{
  const allUsers =await axios.get('/api/admin/allUsers')
  setUsers(allUsers.data)
-},[])
+},[users])
 const arraykeys = ["email","name","phone","verified"]
 
 

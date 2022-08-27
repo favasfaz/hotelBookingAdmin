@@ -20,13 +20,18 @@ const Hotels = () => {
   const [hotel,setHotel] = useState(true)
   const [open,setOpen] = useState(false)
   const [hotels,setHotels] = useState([])
+  const [categories,setCategories] = useState([])
+
 useEffect(async()=>{
+   
     const allHotels =await axios.get('/api/hotels/hotel')
+    const allCategory =await axios.get('/api/category')
     setHotels(allHotels.data)
-   },[])
+    setCategories(allCategory.data)
+   },[hotels])
 
    const arraykeys = ["name","phone","city","createdAt"]
-   const hotelKeys = ["name","category","city","address","distance","phone","description"]
+   const hotelKeys = ["name","city","address","distance","phone","discription"]
   return(
  
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
@@ -36,9 +41,9 @@ useEffect(async()=>{
       <AddIcon className='mr-1'/>
   Add Hotels
 </button>
-    <TableConstants array={hotels} arraykeys={arraykeys} />
+    <TableConstants array={hotels} arraykeys={arraykeys} hotel={hotel} />
     </TableContainer>
-    <ModalConstant open={open} setOpen={setOpen} hotel={hotel} formKeys={hotelKeys}/>
+    <ModalConstant open={open} setOpen={setOpen} hotel={hotel} formKeys={hotelKeys} allCategory={categories} />
   </div>
 
   )

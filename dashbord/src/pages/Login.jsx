@@ -39,7 +39,7 @@ function Login() {
     useEffect(()=>{
     const id =  localStorage.getItem('id')
     if(id){
-      
+      navigate('/home')
     }
     },[])
   return (

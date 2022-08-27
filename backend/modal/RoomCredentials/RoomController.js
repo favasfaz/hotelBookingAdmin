@@ -6,6 +6,7 @@ import { createError } from "../../util/error.js";
 
 export const createRoom = async (req, res, next) => {
   try {
+    console.log(req.body,'body');
     const hotelId = req.params.id;
     const hotel = await hotelSchema.findById(hotelId)
     if(!hotel) return next(createError(401,'Enter correct hotel Id'))
