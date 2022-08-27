@@ -33,10 +33,6 @@ const roomSchema = new mongoose.Schema({
     ],
     currentBooking:[String],
     isNotAvailable:[Object],
-    category:{
-        type:String,
-        required:true
-    },
       imagesUrls:[String]
 },{timestamps: true})
  const  room = mongoose.model("room", roomSchema);

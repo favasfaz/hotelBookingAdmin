@@ -17,7 +17,7 @@ export const LoginAdmin = async (req, res,next) => {
       const token = createToken(admin.email,admin._id)
       return res.cookie("access_token",token,{
         httpOnly:true 
-      }).status(201).json(token);
+      }).status(201).json(admin);
     }
   } catch (error) {
     next(error)

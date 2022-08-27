@@ -16,6 +16,7 @@ import { Stacked, Pie, Button, LineChart, SparkLine } from '../components';
 import { earningData, medicalproBranding, recentTransactions, weeklyStats, dropdownData, SparklineAreaData, ecomPieChartData } from '../data/dummy';
 import { useStateContext } from '../contexts/ContextProvider';
 import product9 from '../data/product9.jpg';
+import TableConstants from '../constants/TableConstants';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -54,6 +55,8 @@ const Ecommerce = () => {
     console.log(allUsers,'users');
     setUsers(allUsers.data)
    },[])
+
+   const arraykeys = ["email","name","phone","verified"]
 
   return (
     <div className="mt-24">
@@ -236,28 +239,7 @@ const Ecommerce = () => {
           </div>
           <div className="md:w-full overflow-auto">
           <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>email</StyledTableCell>
-            <StyledTableCell align="right">name</StyledTableCell>
-            <StyledTableCell align="right">phone</StyledTableCell>
-            <StyledTableCell align="right">verified</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {users.map((row) => (
-            <StyledTableRow key={row.name}>
-              <StyledTableCell component="th" scope="row">
-                {row.email}
-              </StyledTableCell>
-              <StyledTableCell align="right">{row.name}</StyledTableCell>
-              <StyledTableCell align="right">{row.phone}</StyledTableCell>
-              <StyledTableCell align="right">{row.verified.toString()}</StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
+     <TableConstants array={users} arraykeys={arraykeys} />
     </TableContainer>
           </div>
         </div>

@@ -34,7 +34,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 
 
-const Orders = () => {
+const Bookings = () => {
   const [users,setUsers] = useState([])
   useEffect(async()=>{
     const allUsers =await axios.get('/api/admin/allUsers')
@@ -73,6 +73,6 @@ const Orders = () => {
     </div>
   );
 };
-export default Orders;
+export default Bookings;
 
 
