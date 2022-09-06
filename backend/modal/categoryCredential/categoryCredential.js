@@ -28,7 +28,8 @@ export const deleteCategory = async(req,res,next) =>{
 export const updateCategory = async( req,res,next) =>{
     try {
         await categorySchema.findByIdAndUpdate(req.params.id,{$set:req.body})
-        res.status(201).json('category is updated')
+       const category = await categorySchema.find({})
+        res.status(201).json(category)
     } catch (error) {
         console.log(error);
     }

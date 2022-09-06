@@ -3,8 +3,8 @@ import roomSchema from '../../schema/room-schema.js'
 
 export const getAllBookings = async(req,res,next) =>{
     try {
-        const allBookings = await bookingSchema.find({})
-        res.status(201).json('success')
+        const allBookings = await bookingSchema.find({}).populate('customer').populate('room').populate('hotel')
+        res.status(201).json(allBookings)
     } catch (error) {
         console.log(error,'error')
     }

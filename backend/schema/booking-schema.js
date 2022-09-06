@@ -13,6 +13,10 @@ const bookingSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref:'hotel'
     },
+    payment:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'payment'
+    },
     status:{
         type:String,
         default:"PENDING",

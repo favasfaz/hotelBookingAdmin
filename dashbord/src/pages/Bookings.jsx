@@ -35,11 +35,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 
 const Bookings = () => {
-  const [users,setUsers] = useState([])
+  const [bookings,setBookings] = useState([])
   useEffect(async()=>{
-    const allUsers =await axios.get('/api/admin/allUsers')
-    console.log(allUsers,'users');
-    setUsers(allUsers.data)
+    const allBookings =await axios.get('/api/booking')
+    console.log(allBookings,'users');
+    setBookings(allBookings.data)
    },[])
   const editing = { allowDeleting: true, allowEditing: true };
   return (
@@ -49,21 +49,27 @@ const Bookings = () => {
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>email</StyledTableCell>
-            <StyledTableCell align="right">name</StyledTableCell>
-            <StyledTableCell align="right">phone</StyledTableCell>
-            <StyledTableCell align="right">verified</StyledTableCell>
+            <StyledTableCell>Customer Name</StyledTableCell>
+            <StyledTableCell align="right">room No</StyledTableCell>
+            <StyledTableCell align="right">hotel Name</StyledTableCell>
+            <StyledTableCell align="right">Status</StyledTableCell>
+            <StyledTableCell align="right">Start Date</StyledTableCell>
+            <StyledTableCell align="right">End Date</StyledTableCell>
+
           </TableRow>
         </TableHead>
         <TableBody>
-          {users.map((row) => (
-            <StyledTableRow key={row.name}>
+          {bookings.map((row) => (
+            <StyledTableRow key={row.id}>
               <StyledTableCell component="th" scope="row">
-                {row.email}
+                {row.customer.name}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.name}</StyledTableCell>
-              <StyledTableCell align="right">{row.phone}</StyledTableCell>
-              <StyledTableCell align="right">{row.verified.toString()}</StyledTableCell>
+              <StyledTableCell align="right">{row.room?.roomNumber}</StyledTableCell>
+              <StyledTableCell align="right">{row.hotel?.name}</StyledTableCell>
+              <StyledTableCell align="right">{row.status}</StyledTableCell>
+              <StyledTableCell align="right">{row.startDate}</StyledTableCell>
+              <StyledTableCell align="right">{row.endDate}</StyledTableCell>
+
             </StyledTableRow>
           ))}
         </TableBody>

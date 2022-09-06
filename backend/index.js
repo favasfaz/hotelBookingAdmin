@@ -13,7 +13,7 @@ import db from "./util/config.js";
 import bodyParser from "body-parser";
 
 dotenv.config();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
 const app = express();
 app.use(helmet());
 db();
@@ -43,8 +43,3 @@ app.listen(PORT, () => {
 });
 
 
-// const err = new Error()
-  // err.status = 400
-  // err.message = 'wrong'
-  // if(failed) return next(err)
-  // if(failed) return next(createError(400,'went authenticated'))

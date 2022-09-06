@@ -2,21 +2,22 @@ import React, { useEffect, useState } from 'react';
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
 import { Header } from '../components';
-import axios from 'axios';
 import TableConstants from '../constants/TableConstants';
 import AddIcon from '@mui/icons-material/Add';
 import ModalConstant from '../constants/ModalConstant';
-
-
+import {useDispatch,useSelector} from 'react-redux'
+import {FetchCategorys} from '../redux/categoryRedux'
 
 const Customers = () => {
+  const allCategory = useSelector(state => state.categorys.category)
+  const dispatch = useDispatch()
   const [categories,setCategories] = useState([])
   const [open,setOpen] = useState(false)
 const [category,setCategory] = useState(true)
 useEffect(async()=>{
- const allCategory =await axios.get('/api/category')
- setCategories(allCategory.data)
-},[categories])
+ await dispatch(FetchCategorys())
+ setCategories(allCategory)
+},[])
 const arraykeys = ["category","createdAt"]
 const categoryKeys = ["category"]
 
@@ -28,7 +29,7 @@ const categoryKeys = ["category"]
       <AddIcon className='mr-1'/>
   Add Category
 </button>
-      <TableConstants array={categories} arraykeys={arraykeys} category={category} />
+      <TableConstants array={allCategory} arraykeys={arraykeys} category={category} />
     </TableContainer>
     <ModalConstant open={open} setOpen={setOpen} formKeys={categoryKeys} category={category} allCategory={categories}/>
     </div>

@@ -3,6 +3,8 @@ import adminSchema from "../../schema/admin-schema.js";
 import { createError } from "../../util/error.js";
 import userSchema from '../../schema/users-schema.js'
 import categorySchema from "../../schema/category-schema.js";
+import hotelSchema from '../../schema/hotel-schema.js'
+import roomSchema from '../../schema/room-schema.js'
 
 //login admin
 export const LoginAdmin =  async(req, res,next) => {
@@ -65,5 +67,16 @@ export const updateCategory = async(req,res,next) =>{
     await findByIdAndUpdate(req.params.id,{$set:req.body})
   } catch (error) {
     
+  }
+}
+
+export const Home = async (req,res,next) =>{
+  try {
+   const userCount = await userSchema.find({}).count()
+   const hotelCount = await hotelSchema.find({}).count()
+   const roomCount = await roomSchema.find({}).count()
+   res.status(201).json({userCount,hotelCount,roomCount})
+  } catch (error) {
+    next(error)
   }
 }

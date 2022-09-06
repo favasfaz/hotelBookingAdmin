@@ -11,6 +11,10 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { uploadImage } from "../APIs/index";
+import { useDispatch } from 'react-redux'
+import {FetchHotels} from '../redux/HotelRedux'
+import {FetchRooms} from '../redux/RoomRedux'
+import {FetchCategorys} from '../redux/categoryRedux'
 
 function ModalConstant({
   setOpen,
@@ -22,6 +26,7 @@ function ModalConstant({
   allCategory,
 }) {
   const [image, setImage] = useState([]);
+  const dispatch = useDispatch()
 
   const handleSubmit = async (e, values) => {
     e.preventDefault();
@@ -30,14 +35,17 @@ function ModalConstant({
       if (room) {
         const value = await uploadImage(files, values);
         await axios.post(`/api/rooms/room/${values.hotelId}`, value);
+        dispatch(FetchRooms())
         toast("successfully created");
       } else if (hotel) {
         const value = await uploadImage(files, values);
         await axios.post("/api/hotels/hotel", value);
+        dispatch(FetchHotels())
         toast("successfully created");
       } else if (category) {
         const value = await uploadImage(files, values);
         await axios.post("/api/category", value);
+        dispatch(FetchCategorys())
         toast("successfully created");
       }
     } catch (error) {

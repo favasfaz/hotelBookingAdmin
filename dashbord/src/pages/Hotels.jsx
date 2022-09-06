@@ -14,21 +14,26 @@ import axios from 'axios'
 import AddIcon from '@mui/icons-material/Add';
 import ModalConstant from '../constants/ModalConstant';
 import TableConstants from '../constants/TableConstants';
-
+import {useDispatch,useSelector} from 'react-redux'
+import {FetchHotels} from '../redux/HotelRedux'
 
 const Hotels = () => {
+  const dispatch = useDispatch()
   const [hotel,setHotel] = useState(true)
   const [open,setOpen] = useState(false)
   const [hotels,setHotels] = useState([])
   const [categories,setCategories] = useState([])
+  const allHotels = useSelector(state => state.hotels.hotels)
+
 
 useEffect(async()=>{
-   
-    const allHotels =await axios.get('/api/hotels/hotel')
+await dispatch(FetchHotels())
+
     const allCategory =await axios.get('/api/category')
-    setHotels(allHotels.data)
+    console.log(allCategory,'category');
+    setHotels(allHotels)
     setCategories(allCategory.data)
-   },[hotels])
+   },[])
 
    const arraykeys = ["name","phone","city","createdAt"]
    const hotelKeys = ["name","city","address","distance","phone","discription"]
@@ -41,7 +46,7 @@ useEffect(async()=>{
       <AddIcon className='mr-1'/>
   Add Hotels
 </button>
-    <TableConstants array={hotels} arraykeys={arraykeys} hotel={hotel} />
+    <TableConstants array={allHotels} arraykeys={arraykeys} hotel={hotel} />
     </TableContainer>
     <ModalConstant open={open} setOpen={setOpen} hotel={hotel} formKeys={hotelKeys} allCategory={categories} />
   </div>

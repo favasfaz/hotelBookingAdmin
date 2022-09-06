@@ -20,7 +20,7 @@ export const createHotel = async (req, res,next) => {
 export const getAllHotel = async (req, res) => {
   try {
     const hotels = await hotelSchema.find({});
-    res.json(hotels);
+    res.status(201).json(hotels);
   } catch (error) {
     res.json(error).status(401);
   }
@@ -43,14 +43,16 @@ export const getHotelRooms = async (req, res, next) => {
 //updateHotel
 export const updateHotel = async (req, res, next) => {
   try {
-    const _id = req.params.id;
-    await hotelSchema.findByIdAndUpdate(_id, { $set: req.body });
-    res.json("successfully updated");
+    const id = req.params.id
+    await hotelSchema.findByIdAndUpdate(id, { $set: req.body });
+    const hotels = await hotelSchema.find({})
+    res.status(200).json(hotels);
   } catch (error) {
     console.log(error);
     next(error);
   }
 };
+
 //deleteHotel
 export const deleteHotel = async (req, res, next) => {
   try {

@@ -35,13 +35,57 @@ return axios.delete(`/api/hotels/hotel/${id}`)
 }
 
 //deleting room
-
 export const deleteRoom = async(id)=>{
 return axios.delete(`/api/rooms/room/${id}`)
 }
 
 //deleting category
-
 export const deleteCategory = async(id) =>{
   return axios.delete(`/api/category/${id}`)
+}
+
+//single room details
+export const roomDetails = async(id)=>{
+  return axios.get(`/api/rooms/room/${id}`)
+}
+
+//single hotel detail
+export const hotelDetails =async (id) =>{
+return axios.get(`/api/hotels/hotel/${id}`)
+}
+
+//single category detail
+export const categoryDetails = async (id) =>{
+  return axios.get(`/api/category/${id}`)
+}
+
+//return allRooms
+export const allRooms = async ()=>{
+  return axios.get('/api/rooms/room')
+}
+
+//return all Categories
+export const allCategory = async() =>{
+  return axios.get('/api/category')
+}
+
+//updateCategory
+export const updatingCategory = async(data,Id)=>{
+  return axios.put(`/api/category/${Id}`,data)
+}
+
+//updating Rooms
+export const UpdatingRooms = async(data,Id)=>{
+  return axios.put(`/api/rooms/room/${Id}`,data)
+}
+
+//updating Hotels
+export const UpdatingHotels = async(data,Id)=>{
+  console.log(Id,'iddddddddddddddddd');
+  return axios.put(`/api/hotels/hotel/${Id}`,data)
+}
+
+//returning home data
+export const HomeData = async()=>{
+  return axios.get('/api/admin/home')
 }

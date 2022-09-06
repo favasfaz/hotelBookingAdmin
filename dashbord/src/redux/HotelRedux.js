@@ -1,23 +1,39 @@
 import { createSlice,createAsyncThunk } from '@reduxjs/toolkit'
-import {allHotels} from '../APIs/index'
+import {allHotels, UpdatingHotels} from '../APIs/index'
+
 const initialState = {
     loading : false,
     hotels : [],
     error : ''
 }
 
-export const FetchHotels = createAsyncThunk('hotels/FetchHotels',async({ rejectWithValue })=>{
-    try {
+export const FetchHotels = createAsyncThunk('hotels/FetchHotels',async()=>{
+  
      const res =  await allHotels()
      return res.data
-    } catch (error) {  
-    throw  rejectWithValue(error.response.data.message)
-    }
+    
  })
+ export const UpdateHotels = createAsyncThunk('hotels/UpdateHotels',async(datas)=>{
+    try{
+     const {data , Id} = datas
+     const res = await UpdatingHotels(data,Id)
+     return res.data
+    } catch(error){
+     throw error.response.data.message
+     // throw  rejectWithValue(error.response.data.message)
+    }
+  })
 
 export const hotelSlice = createSlice({
     name:'hotels',
     initialState,
+    reducers:{
+        deletingHotel:(state,action)=>{
+            state.hotels = state.hotels.filter(v =>{
+                return v._id !== action.payload
+            })
+        }
+    },
     extraReducers:(builder)=>{
         builder.addCase(FetchHotels.pending,(state)=>{
             state.loading = true
@@ -32,7 +48,18 @@ export const hotelSlice = createSlice({
             state.hotels = []
             state.error = action.payload
         })
+        builder.addCase(UpdateHotels.fulfilled,(state,action)=>{
+            state.loading = false
+            state.category = action.payload
+            state.error = ''
+        })
+        builder.addCase(UpdateHotels.rejected,(state,action)=>{
+            state.loading = false
+            state.category = []
+            state.error = action.payload
+        })
     }
 })
 
 export default hotelSlice.reducer
+export const {deletingHotel} = hotelSlice.actions

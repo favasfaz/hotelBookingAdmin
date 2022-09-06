@@ -36,8 +36,10 @@ export const getAllRooms = async (req, res, next) => {
 export const updateRoom = async (req, res, next) => {
   try {
     const id = req.params.id;
+    console.log(id,'id');
     await roomSchema.findByIdAndUpdate(id, { $set: req.body });
-    res.status(201).json("successfully updated");
+   const rooms = await roomSchema.find({})
+    res.status(201).json(rooms);
   } catch (error) {
     console.log(error);
     next(error);
@@ -56,6 +58,7 @@ export const deleteRoom = async (req, res, next) => {
 
 // //getSingleHotel
 export const getSingleRoom = async (req, res, next) => {
+  console.log('its came')
   try {
     const _id = req.params.id;
     const hotel = await roomSchema.findById(_id);
