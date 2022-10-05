@@ -40,7 +40,7 @@ const Rooms = () => {
           <AddIcon className="mr-1" />
           Add Room
         </button>
-        <TableConstants array={allRooms} arraykeys={arraykeys} room={room} />
+        <TableConstants array={allRooms} arraykeys={arraykeys} room={room} allRooms={rooms}/>
       </TableContainer>
       <ModalConstant
         open={open}

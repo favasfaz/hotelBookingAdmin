@@ -29,7 +29,7 @@ const categoryKeys = ["category"]
       <AddIcon className='mr-1'/>
   Add Category
 </button>
-      <TableConstants array={allCategory} arraykeys={arraykeys} category={category} />
+      <TableConstants array={allCategory} arraykeys={arraykeys} category={category} allCategory={categories} />
     </TableContainer>
     <ModalConstant open={open} setOpen={setOpen} formKeys={categoryKeys} category={category} allCategory={categories}/>
     </div>

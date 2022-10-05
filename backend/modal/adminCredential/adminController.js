@@ -8,7 +8,6 @@ import roomSchema from '../../schema/room-schema.js'
 
 //login admin
 export const LoginAdmin =  async(req, res,next) => {
-  
   try {
     const { email, password } = req.body;
     const admin = await adminSchema.findOne({email,password})
@@ -21,6 +20,7 @@ export const LoginAdmin =  async(req, res,next) => {
       }).status(201).json(admin);
     }
   } catch (error) {
+    console.log(error);
     next(error)
   }
 };

@@ -14,6 +14,7 @@ import EditConstant from "./EditConstant";
 import { useSelector,useDispatch } from "react-redux";
 import {deletingCategory} from '../redux/categoryRedux'
 import {deletingHotel} from '../redux/HotelRedux'
+import {FetchRooms} from '../redux/RoomRedux'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -35,7 +36,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function TableConstants({ array, arraykeys, room, hotel, category }) {
+function TableConstants({ array, arraykeys, room, hotel, category, allCategory }) {
  const dispatch = useDispatch()
   const [editOpen, setEditOpen] = useState(false);
   const [editId, setEditId] = useState("");
@@ -44,15 +45,15 @@ function TableConstants({ array, arraykeys, room, hotel, category }) {
     try {
       if (room) {
         await deleteRoom(id);
-        
+        dispatch(FetchRooms())
         toast("successfully deleted");
       } else if (hotel) {
         await deleteHotel(id);
-      await dispatch(deletingHotel(id))
+     dispatch(deletingHotel(id))
         toast("successfully deleted");
       } else if (category) {
         await deleteCategory(id);
-        await dispatch(deletingCategory(id))
+       dispatch(deletingCategory(id))
         toast("successfully deleted");
       }
     } catch (error) {
@@ -127,6 +128,7 @@ function TableConstants({ array, arraykeys, room, hotel, category }) {
         category={category}
         arraykeys={arraykeys}
         array={array}
+        allCategory={allCategory}
       />
     </Table>
   );

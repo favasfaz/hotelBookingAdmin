@@ -19,7 +19,7 @@ export const roomValidation = Yup.object().shape({
   roomNumber: Yup.number()
     .typeError("you must specify a number")
     .required("roomNumber is required"),
-  category: Yup.string().required("category is required").max(255),
+  // category: Yup.string().required("category is required").max(255),
 });
 
 export const hotelValidation = Yup.object().shape({

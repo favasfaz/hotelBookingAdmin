@@ -10,6 +10,8 @@ import {useNavigate} from 'react-router-dom'
 
 function Login() {
   const admin = useSelector((state) => state.admin);
+  const {loginErr}=admin
+  const isAdmin = localStorage.getItem('admin')
   const navigate = useNavigate()
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
@@ -17,13 +19,12 @@ function Login() {
 
     const handleSubmit = async()=>{
       const data = {email,password}
-      await dispatch(LoginAdmin(data))
-      if(admin.error === ""){
-        localStorage.setItem('id',admin.admin._id)
-        toast("successfully created");
-        navigate('/home')
-      }
-      else{
+        dispatch(LoginAdmin(data))
+    
+    }
+
+    useEffect(()=>{
+      if(loginErr){
         toast.error(admin.error, {
           position: "top-center",
           autoClose: 5000,
@@ -33,15 +34,18 @@ function Login() {
           draggable: true,
           progress: undefined,
         });
+      } 
+      if(isAdmin){
+        navigate('/home')
       }
-    }
+    },[loginErr,admin])
 
-    useEffect(()=>{
-    const id =  localStorage.getItem('id')
-    if(id){
-      navigate('/home')
-    }
-    },[])
+    // useEffect(()=>{
+    // const id =  localStorage.getItem('id')
+    // if(id){
+    //   navigate('/home')
+    // }
+    // },[])
   return (
     <Grid container mt={5} >
       <ToastContainer

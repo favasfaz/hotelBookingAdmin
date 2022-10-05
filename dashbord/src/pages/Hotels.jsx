@@ -30,7 +30,6 @@ useEffect(async()=>{
 await dispatch(FetchHotels())
 
     const allCategory =await axios.get('/api/category')
-    console.log(allCategory,'category');
     setHotels(allHotels)
     setCategories(allCategory.data)
    },[])
@@ -46,7 +45,7 @@ await dispatch(FetchHotels())
       <AddIcon className='mr-1'/>
   Add Hotels
 </button>
-    <TableConstants array={allHotels} arraykeys={arraykeys} hotel={hotel} />
+    <TableConstants array={allHotels} arraykeys={arraykeys} hotel={hotel} allHotels={hotels}/>
     </TableContainer>
     <ModalConstant open={open} setOpen={setOpen} hotel={hotel} formKeys={hotelKeys} allCategory={categories} />
   </div>

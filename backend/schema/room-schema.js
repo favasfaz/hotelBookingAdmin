@@ -5,8 +5,8 @@ const roomSchema = new mongoose.Schema({
         required:true,
     },
     hotelId:{
-        type:String,
-        required:true
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'hotel',
     },
     price:{
         type:Number,

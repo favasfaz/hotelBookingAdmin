@@ -2,21 +2,22 @@ import axios from "axios";
 
 //uploading images to cloudinary
 export const uploadImage =async(files,values) =>{
-    
-    files.map(async (images) => {
-                          const file = images;
-                          const formData = new FormData();
-                          formData.append("file", file);
-                          formData.append("upload_preset", "srpv6qud");
-                          await axios
-                            .post(
-                              "https://api.cloudinary.com/v1_1/dyj8kjlnl/image/upload",
-                              formData
-                            )
-                            .then((res) => values.imageUrls.push(res.data.url))
-                            .catch((err) => console.log(err));
-                        });
-                        return values
+  let img = []
+  const uploaders = files.map(async (images) => {
+      const file = images;
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "srpv6qud");
+     return axios
+        .post(
+          "https://api.cloudinary.com/v1_1/dyj8kjlnl/image/upload",
+          formData
+        )
+        .then(res => img.push(res.data.url))
+    });
+  return await axios.all(uploaders).then(() => {
+      values.imageUrls = img
+    });
 }
 
 //admin Login
@@ -61,7 +62,7 @@ export const categoryDetails = async (id) =>{
 
 //return allRooms
 export const allRooms = async ()=>{
-  return axios.get('/api/rooms/room')
+  return axios.get('/api/rooms/rooms')
 }
 
 //return all Categories
@@ -81,7 +82,6 @@ export const UpdatingRooms = async(data,Id)=>{
 
 //updating Hotels
 export const UpdatingHotels = async(data,Id)=>{
-  console.log(Id,'iddddddddddddddddd');
   return axios.put(`/api/hotels/hotel/${Id}`,data)
 }
 

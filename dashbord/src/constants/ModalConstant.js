@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux'
 import {FetchHotels} from '../redux/HotelRedux'
 import {FetchRooms} from '../redux/RoomRedux'
 import {FetchCategorys} from '../redux/categoryRedux'
+import Dropzone from 'react-dropzone'
 
 function ModalConstant({
   setOpen,
@@ -27,26 +28,32 @@ function ModalConstant({
 }) {
   const [image, setImage] = useState([]);
   const dispatch = useDispatch()
-
+  // const handleDrop = ()=>{
+    
+  // }
   const handleSubmit = async (e, values) => {
+    
     e.preventDefault();
     const files = [...image];
     try {
       if (room) {
-        const value = await uploadImage(files, values);
-        await axios.post(`/api/rooms/room/${values.hotelId}`, value);
+      await uploadImage(files, values);
+        await axios.post(`/api/rooms/rooms`, values);
         dispatch(FetchRooms())
         toast("successfully created");
+       setOpen(false)
       } else if (hotel) {
-        const value = await uploadImage(files, values);
-        await axios.post("/api/hotels/hotel", value);
+         await uploadImage(files, values);
+        await axios.post("/api/hotels/hotel", values);
         dispatch(FetchHotels())
         toast("successfully created");
+       setOpen(false)
       } else if (category) {
-        const value = await uploadImage(files, values);
-        await axios.post("/api/category", value);
-        dispatch(FetchCategorys())
-        toast("successfully created");
+     await uploadImage(files, values)
+         await axios.post("/api/category", values);
+         dispatch(FetchCategorys())
+         toast("successfully created");
+        setOpen(false)
       }
     } catch (error) {
       toast.error(error.response.data.message, {
@@ -76,7 +83,7 @@ function ModalConstant({
                   class="text-xl font-medium leading-normal text-gray-800"
                   id="exampleModalLongLabel"
                 >
-                  {hotel ? "Add Room" : room ? "Add Room" : "Add Category"}
+                  {hotel ? "Add Hotel" : room ? "Add Room" : "Add Category"}
                 </h5>
                 <ToastContainer
                   position="bottom-left"
@@ -131,8 +138,6 @@ function ModalConstant({
                         <div className="flex flex-col items-center mt-4">
                           {formKeys.map(
                             (v) => (
-                              console.log(values),
-                              console.log(errors),
                               (
                                 <TextField
                                   key={v}
@@ -226,6 +231,7 @@ function ModalConstant({
                               setImage(e.target.files);
                             }}
                           />
+                          {/* <Dropzone onDrop={handleDrop} multiple={true} accept="image/*" /> */}
 
                           <div class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
                             <button

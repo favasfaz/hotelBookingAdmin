@@ -5,6 +5,7 @@ import { createError } from "../../util/error.js";
 //adding category
 export const addCategory = async(req,res,next) =>{
     try {
+        console.log(req.body,'body')
         const ifExist = await categorySchema.findOne({category:req.body.category})
         if(ifExist) return next(createError(401,'Already Exist'))
         await categorySchema.create(req.body)

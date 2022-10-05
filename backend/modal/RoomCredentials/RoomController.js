@@ -3,21 +3,21 @@
 import roomSchema from "../../schema/room-schema.js";
 import hotelSchema from "../../schema/hotel-schema.js";
 import { createError } from "../../util/error.js";
+import mongoose from "mongoose";
 
 export const createRoom = async (req, res, next) => {
   try {
-    console.log(req.body,'body');
-    const hotelId = req.params.id;
-    const hotel = await hotelSchema.findById(hotelId)
+    const hotel = await hotelSchema.findById(req.body.hotelId)
     if(!hotel) return next(createError(401,'Enter correct hotel Id'))
-    const existRoom = await roomSchema.findOne({hotelId,roomNumber:req.body.roomNumber})
+    const existRoom = await roomSchema.findOne({hotelId:req.body.hotelId,roomNumber:req.body.roomNumber})
     if(existRoom) return next(createError(401,'another room has same room number'))
     const newRoom = await roomSchema.create(req.body);
-    await hotelSchema.findByIdAndUpdate(hotelId, {
+    await hotelSchema.findByIdAndUpdate(req.body.hotelId, {
       $push: { rooms: newRoom._id },
     });
     res.status(200).json("success");
   } catch (error) {
+    console.log(error,'error');
     next(createError(401,'Enter valid hotelId'));
   }
 };
@@ -35,10 +35,10 @@ export const getAllRooms = async (req, res, next) => {
 // //updateHotel
 export const updateRoom = async (req, res, next) => {
   try {
-    const id = req.params.id;
-    console.log(id,'id');
-    await roomSchema.findByIdAndUpdate(id, { $set: req.body });
-   const rooms = await roomSchema.find({})
+    const id = req.params.id
+    console.log(req.body);
+ await roomSchema.findByIdAndUpdate(id,{$set:{price:req.body?.price,title:req.body?.title}});
+  const rooms = await roomSchema.find({})
     res.status(201).json(rooms);
   } catch (error) {
     console.log(error);

@@ -11,11 +11,10 @@ function CountComponent() {
     hotelCount : '',
     roomCount : '',
   })
-console.log(count.userCount,'usercount');
     useEffect(async()=>{
    let datas = await HomeData()
    setCount(datas.data)
-    })
+    },[])
 
  const earningData = [
     {

@@ -8,7 +8,6 @@ const initialState = {
 }
 
 export const FetchHotels = createAsyncThunk('hotels/FetchHotels',async()=>{
-  
      const res =  await allHotels()
      return res.data
     
@@ -17,6 +16,7 @@ export const FetchHotels = createAsyncThunk('hotels/FetchHotels',async()=>{
     try{
      const {data , Id} = datas
      const res = await UpdatingHotels(data,Id)
+     console.log(res.data);
      return res.data
     } catch(error){
      throw error.response.data.message
@@ -50,12 +50,12 @@ export const hotelSlice = createSlice({
         })
         builder.addCase(UpdateHotels.fulfilled,(state,action)=>{
             state.loading = false
-            state.category = action.payload
+            state.hotels = action.payload
             state.error = ''
         })
         builder.addCase(UpdateHotels.rejected,(state,action)=>{
             state.loading = false
-            state.category = []
+            state.hotels = []
             state.error = action.payload
         })
     }

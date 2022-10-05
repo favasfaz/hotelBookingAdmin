@@ -14,8 +14,8 @@ const UserProfile = () => {
   const admin = useSelector((state) => state.admin);
   const navigate = useNavigate()
   const handleClick = ()=>{
-    localStorage.removeItem('id')
-    navigate('/home')
+    localStorage.removeItem('admin')
+    navigate('/')
   }
 
   return (
@@ -46,14 +46,14 @@ const UserProfile = () => {
       
       </div>
       <div className="mt-5">
-        <Button
+        {/* <Button
         onClick={handleClick}
-          color="white"
+         sx={{color:'#fff'}}
           bgColor={currentColor}
-          text="Logout"
           borderRadius="10px"
           width="full"
-        />
+        >Logout</Button> */}
+        <button className='bg-blue-900 text-white w-full h-10' onClick={handleClick}>Logout</button>
       </div>
     </div>
 

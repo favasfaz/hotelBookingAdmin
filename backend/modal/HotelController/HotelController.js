@@ -27,6 +27,7 @@ export const getAllHotel = async (req, res) => {
 };
 
 //rooms from hotel
+//@route GET => /api/hotel
 export const getHotelRooms = async (req, res, next) => {
   try {
     const _id = req.params.id;
@@ -44,7 +45,7 @@ export const getHotelRooms = async (req, res, next) => {
 export const updateHotel = async (req, res, next) => {
   try {
     const id = req.params.id
-    await hotelSchema.findByIdAndUpdate(id, { $set: req.body });
+    await hotelSchema.findByIdAndUpdate(id,{$set:{name:req.body?.name,city:req.body?.city,phone:req.body?.phone}});
     const hotels = await hotelSchema.find({})
     res.status(200).json(hotels);
   } catch (error) {

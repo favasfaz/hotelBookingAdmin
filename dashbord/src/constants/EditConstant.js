@@ -60,25 +60,11 @@ export default function EditConstant({
   arraykeys,
   Id,
   array,
+  allCategory,
 }) {
   const dispatch = useDispatch()
   const isEditId = array.filter((v) => v._id === Id);
-  const [data, setData] = useState({
-    title: "",
-    hotelId: "",
-    price: "",
-    maxPeople: "",
-    discription: "",
-    roomNumber: "",
-    category: "",
-    name: "",
-    city: "",
-    address: "",
-    destance: "",
-    phone: "",
-    imageUrls: [],
-  });
-
+  const [data, setData] = useState(allCategory || hotel || room);
 
   const handleSubmit = async () => {
     if (hotel) {
@@ -95,6 +81,7 @@ export default function EditConstant({
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(name,value);
     setData(prevState => ({
         ...prevState,
         [name]: value
